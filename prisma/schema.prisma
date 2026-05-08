@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  longDesc    String   @default("")
+  category    String
+  date        String
+  projectUrl  String   @default("")
+  githubUrl   String   @default("")
+  image       String   @default("")
+  featured    Boolean  @default(false)
+  tags        String   @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Skill {
+  id         String @id @default(cuid())
+  name       String
+  level      Int    @default(80)
+  category   String @default("Technical")
+  icon       String @default("")
+  sortOrder  Int    @default(0)
+}
+
+model AboutInfo {
+  id          String @id @default(cuid())
+  name        String @default("")
+  title       String @default("")
+  bio         String @default("")
+  email       String @default("")
+  phone       String @default("")
+  location    String @default("")
+  resumeUrl   String @default("")
+  heroHeading String @default("")
+  heroSub     String @default("")
+  avatarUrl   String @default("")
+}
+
+model SocialLink {
+  id        String @id @default(cuid())
+  platform  String
+  url       String
+  icon      String @default("")
+  sortOrder Int    @default(0)
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model AdminUser {
+  id           String @id @default(cuid())
+  username     String @unique
+  passwordHash String
+}
