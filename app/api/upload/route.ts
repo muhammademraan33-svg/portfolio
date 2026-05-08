@@ -32,6 +32,14 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    // Railway containers use ephemeral local disk.
+    // Store image as data URL there so it keeps rendering reliably.
+    const isRailway = Boolean(process.env.RAILWAY_PROJECT_ID || process.env.RAILWAY_ENVIRONMENT);
+    if (isRailway) {
+      const dataUrl = `data:${file.type};base64,${buffer.toString("base64")}`;
+      return NextResponse.json({ url: dataUrl }, { status: 201 });
+    }
+
     const ext = file.name.split(".").pop() || "jpg";
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const uploadDir = path.join(process.cwd(), "public", "uploads");
