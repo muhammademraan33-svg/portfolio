@@ -7,9 +7,14 @@ export default async function AdminSocialPage() {
   const auth = await isAuthenticated();
   if (!auth) redirect("/admin/login");
 
-  const socials = await prisma.socialLink.findMany({
-    orderBy: { sortOrder: "asc" },
-  });
+  let socials: Awaited<ReturnType<typeof prisma.socialLink.findMany>> = [];
+  try {
+    socials = await prisma.socialLink.findMany({
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch (error) {
+    console.error("Social links DB unavailable:", error);
+  }
 
   return (
     <div>

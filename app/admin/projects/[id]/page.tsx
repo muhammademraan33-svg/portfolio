@@ -14,7 +14,12 @@ export default async function EditProjectPage({ params }: PageProps) {
   if (!auth) redirect("/admin/login");
 
   const { id } = await params;
-  const project = await prisma.project.findUnique({ where: { id } });
+  let project: Awaited<ReturnType<typeof prisma.project.findUnique>> = null;
+  try {
+    project = await prisma.project.findUnique({ where: { id } });
+  } catch (error) {
+    console.error("Project detail DB unavailable:", error);
+  }
   if (!project) notFound();
 
   return (

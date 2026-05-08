@@ -16,7 +16,7 @@ function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 }
 
-export default function Navbar() {
+export default function Navbar({ brandName = "Alex" }: { brandName?: string }) {
   const [scrolled,    setScrolled]    = useState(false);
   const [mobileOpen,  setMobileOpen]  = useState(false);
   const [active,      setActive]      = useState("home");
@@ -42,6 +42,8 @@ export default function Navbar() {
     scrollTo(id);
   };
 
+  const brand = brandName.trim() || "Alex";
+
   return (
     <>
       <motion.header
@@ -56,12 +58,12 @@ export default function Navbar() {
           zIndex: 50,
           transition: "all 0.3s ease",
           background: scrolled
-            ? "rgba(7,7,15,0.94)"
+            ? "rgba(2,12,15,0.96)"
             : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
           borderBottom: scrolled
-            ? "1px solid rgba(255,255,255,0.06)"
+            ? "1px solid rgba(61,255,126,0.28)"
             : "1px solid transparent",
           padding: scrolled ? "0.7rem 0" : "1.1rem 0",
         }}
@@ -96,8 +98,8 @@ export default function Navbar() {
                 width: 38,
                 height: 38,
                 borderRadius: 10,
-                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                boxShadow: "0 4px 16px rgba(99,102,241,0.45)",
+                background: "linear-gradient(135deg, #3dff7e, #1ad1ff)",
+                boxShadow: "0 4px 16px rgba(61,255,126,0.38)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -114,8 +116,8 @@ export default function Navbar() {
                 lineHeight: 1,
               }}
             >
-              <span className="gradient-text">Alex</span>
-              <span style={{ color: "#64748b" }}>.dev</span>
+              <span className="gradient-text">{brand}</span>
+              <span style={{ color: "#5ea884" }}>.portfolio</span>
             </span>
           </motion.button>
 
@@ -151,8 +153,8 @@ export default function Navbar() {
                         position: "absolute",
                         inset: 0,
                         borderRadius: 8,
-                        background: "rgba(99,102,241,0.1)",
-                        border: "1px solid rgba(99,102,241,0.2)",
+                        background: "rgba(61,255,126,0.1)",
+                        border: "1px solid rgba(61,255,126,0.3)",
                       }}
                     />
                   )}
@@ -173,14 +175,14 @@ export default function Navbar() {
               onClick={() => handleNav("contact")}
               className="hire-btn"
               style={{
-                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                boxShadow: "0 4px 16px rgba(99,102,241,0.38)",
+                background: "linear-gradient(135deg, #3dff7e, #1ad1ff)",
+                boxShadow: "0 4px 16px rgba(61,255,126,0.32)",
                 border: "none",
                 borderRadius: 10,
                 padding: "0.55rem 1.3rem",
                 fontSize: "0.875rem",
                 fontWeight: 700,
-                color: "#fff",
+                color: "#00120a",
                 cursor: "pointer",
                 letterSpacing: "0.02em",
               }}
@@ -193,15 +195,15 @@ export default function Navbar() {
               onClick={() => setMobileOpen(v => !v)}
               aria-label="Menu"
               style={{
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: "rgba(4,16,21,0.9)",
+                border: "1px solid rgba(61,255,126,0.25)",
                 borderRadius: 10,
                 width: 40,
                 height: 40,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "#94a3b8",
+                color: "#73b895",
                 cursor: "pointer",
               }}
               className="mobile-only"
@@ -227,10 +229,10 @@ export default function Navbar() {
               left: 0,
               right: 0,
               zIndex: 40,
-              background: "rgba(7,7,15,0.97)",
+              background: "rgba(2,12,15,0.98)",
               backdropFilter: "blur(20px)",
               WebkitBackdropFilter: "blur(20px)",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              borderBottom: "1px solid rgba(61,255,126,0.24)",
               padding: "0.75rem 1.25rem 1rem",
             }}
           >
@@ -244,9 +246,9 @@ export default function Navbar() {
                   textAlign: "left",
                   padding: "0.75rem 1rem",
                   borderRadius: 10,
-                  background: active === link.id ? "rgba(99,102,241,0.1)" : "transparent",
+                  background: active === link.id ? "rgba(61,255,126,0.12)" : "transparent",
                   border: "none",
-                  color: active === link.id ? "#a78bfa" : "#94a3b8",
+                  color: active === link.id ? "#3dff7e" : "#73b895",
                   fontSize: "0.95rem",
                   fontWeight: 500,
                   cursor: "pointer",
@@ -265,9 +267,9 @@ export default function Navbar() {
                 marginTop: "0.5rem",
                 padding: "0.75rem 1rem",
                 borderRadius: 10,
-                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                background: "linear-gradient(135deg, #3dff7e, #1ad1ff)",
                 border: "none",
-                color: "#fff",
+                color: "#00120a",
                 fontSize: "0.9rem",
                 fontWeight: 700,
                 cursor: "pointer",

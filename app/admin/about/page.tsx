@@ -7,7 +7,12 @@ export default async function AdminAboutPage() {
   const auth = await isAuthenticated();
   if (!auth) redirect("/admin/login");
 
-  const about = await prisma.aboutInfo.findFirst();
+  let about: Awaited<ReturnType<typeof prisma.aboutInfo.findFirst>> = null;
+  try {
+    about = await prisma.aboutInfo.findFirst();
+  } catch (error) {
+    console.error("About DB unavailable:", error);
+  }
 
   return (
     <div>

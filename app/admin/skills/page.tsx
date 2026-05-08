@@ -7,7 +7,12 @@ export default async function AdminSkillsPage() {
   const auth = await isAuthenticated();
   if (!auth) redirect("/admin/login");
 
-  const skills = await prisma.skill.findMany({ orderBy: { sortOrder: "asc" } });
+  let skills: Awaited<ReturnType<typeof prisma.skill.findMany>> = [];
+  try {
+    skills = await prisma.skill.findMany({ orderBy: { sortOrder: "asc" } });
+  } catch (error) {
+    console.error("Skills DB unavailable:", error);
+  }
 
   return (
     <div>

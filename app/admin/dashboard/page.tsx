@@ -18,20 +18,37 @@ export default async function DashboardPage() {
   const auth = await isAuthenticated();
   if (!auth) redirect("/admin/login");
 
-  const [projectCount, skillCount, socialCount, messageCount, unreadCount] =
-    await Promise.all([
-      prisma.project.count(),
-      prisma.skill.count(),
-      prisma.socialLink.count(),
-      prisma.contactMessage.count(),
-      prisma.contactMessage.count({ where: { read: false } }),
-    ]);
+  let projectCount = 0;
+  let skillCount = 0;
+  let socialCount = 0;
+  let messageCount = 0;
+  let unreadCount = 0;
+  let recentProjects: {
+    id: string;
+    title: string;
+    category: string;
+    createdAt: Date;
+    slug: string;
+  }[] = [];
 
-  const recentProjects = await prisma.project.findMany({
-    take: 5,
-    orderBy: { createdAt: "desc" },
-    select: { id: true, title: true, category: true, createdAt: true, slug: true },
-  });
+  try {
+    [projectCount, skillCount, socialCount, messageCount, unreadCount] =
+      await Promise.all([
+        prisma.project.count(),
+        prisma.skill.count(),
+        prisma.socialLink.count(),
+        prisma.contactMessage.count(),
+        prisma.contactMessage.count({ where: { read: false } }),
+      ]);
+
+    recentProjects = await prisma.project.findMany({
+      take: 5,
+      orderBy: { createdAt: "desc" },
+      select: { id: true, title: true, category: true, createdAt: true, slug: true },
+    });
+  } catch (error) {
+    console.error("Dashboard DB unavailable:", error);
+  }
 
   const stats = [
     {

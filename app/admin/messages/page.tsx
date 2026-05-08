@@ -7,9 +7,14 @@ export default async function MessagesPage() {
   const auth = await isAuthenticated();
   if (!auth) redirect("/admin/login");
 
-  const messages = await prisma.contactMessage.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  let messages: Awaited<ReturnType<typeof prisma.contactMessage.findMany>> = [];
+  try {
+    messages = await prisma.contactMessage.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Messages DB unavailable:", error);
+  }
 
   return (
     <div>

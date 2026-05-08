@@ -10,6 +10,14 @@ import ContactSection from "@/components/sections/ContactSection";
 export const revalidate = 60;
 
 async function getPortfolioData() {
+  const dbUrl = process.env.DATABASE_URL || "";
+  const dbConfigured =
+    dbUrl.startsWith("postgres://") || dbUrl.startsWith("postgresql://");
+
+  if (!dbConfigured) {
+    return { about: null, skills: [], projects: [], socials: [] };
+  }
+
   try {
     const [about, skills, projects, socials] = await Promise.all([
       prisma.aboutInfo.findFirst(),
@@ -44,7 +52,7 @@ export default async function HomePage() {
 
   return (
     <div className="noise">
-      <Navbar />
+      <Navbar brandName={aboutData.name.split(" ")[0] || "Alex"} />
       <main>
         <HeroSection about={aboutData} socials={socials} />
         <AboutSection about={aboutData} />

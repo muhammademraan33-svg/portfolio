@@ -9,9 +9,14 @@ export default async function AdminProjectsPage() {
   const auth = await isAuthenticated();
   if (!auth) redirect("/admin/login");
 
-  const projects = await prisma.project.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  let projects: Awaited<ReturnType<typeof prisma.project.findMany>> = [];
+  try {
+    projects = await prisma.project.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Projects DB unavailable:", error);
+  }
 
   return (
     <div>

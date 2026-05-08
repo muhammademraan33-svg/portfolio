@@ -17,7 +17,7 @@ async function main() {
   );
   await prisma.adminUser.upsert({
     where: { username: process.env.ADMIN_USERNAME || "admin" },
-    update: {},
+    update: { passwordHash },
     create: {
       username: process.env.ADMIN_USERNAME || "admin",
       passwordHash,
