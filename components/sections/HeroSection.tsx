@@ -152,6 +152,12 @@ function ParticleCanvas() {
 }
 
 export default function HeroSection({ about, socials }: HeroSectionProps) {
+  const [avatarBroken, setAvatarBroken] = useState(false);
+
+  useEffect(() => {
+    setAvatarBroken(false);
+  }, [about.avatarUrl]);
+
   const titles = about.heroSub
     ? about.heroSub.split("|").map((s) => s.trim())
     : ["Full Stack Developer", "UI/UX Designer", "Problem Solver"];
@@ -284,12 +290,13 @@ export default function HeroSection({ about, socials }: HeroSectionProps) {
               {/* Outer ring */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 blur-md opacity-40 scale-110" />
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden border-2 border-indigo-500/30 float-animation">
-                {about.avatarUrl ? (
+                {about.avatarUrl && !avatarBroken ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={about.avatarUrl}
                     alt={about.name}
                     className="w-full h-full object-cover"
+                    onError={() => setAvatarBroken(true)}
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-indigo-900 to-purple-900 flex items-center justify-center">

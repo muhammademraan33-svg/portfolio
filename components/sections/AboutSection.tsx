@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
 import { MapPin, Mail, Phone, Download, CheckCircle } from "lucide-react";
@@ -28,6 +29,11 @@ const achievements = [
 
 export default function AboutSection({ about }: AboutSectionProps) {
   const { ref, inView } = useInView({ threshold: 0.2 });
+  const [avatarBroken, setAvatarBroken] = useState(false);
+
+  useEffect(() => {
+    setAvatarBroken(false);
+  }, [about.avatarUrl]);
 
   return (
     <section id="about" className="section-padding relative overflow-hidden">
@@ -66,12 +72,13 @@ export default function AboutSection({ about }: AboutSectionProps) {
               <div className="absolute -bottom-4 -right-4 w-72 h-72 bg-purple-600/10 rounded-2xl" />
 
               <div className="relative w-full aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden border border-indigo-500/20">
-                {about.avatarUrl ? (
+                {about.avatarUrl && !avatarBroken ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={about.avatarUrl}
                     alt={about.name}
                     className="w-full h-full object-cover"
+                    onError={() => setAvatarBroken(true)}
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-indigo-900/50 to-purple-900/50 flex items-center justify-center">
