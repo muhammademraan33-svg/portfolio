@@ -10,14 +10,17 @@ import ContactSection from "@/components/sections/ContactSection";
 export const revalidate = 60;
 
 async function getPortfolioData() {
-  const [about, skills, projects, socials] = await Promise.all([
-    prisma.aboutInfo.findFirst(),
-    prisma.skill.findMany({ orderBy: { sortOrder: "asc" } }),
-    prisma.project.findMany({ orderBy: { createdAt: "desc" } }),
-    prisma.socialLink.findMany({ orderBy: { sortOrder: "asc" } }),
-  ]);
-
-  return { about, skills, projects, socials };
+  try {
+    const [about, skills, projects, socials] = await Promise.all([
+      prisma.aboutInfo.findFirst(),
+      prisma.skill.findMany({ orderBy: { sortOrder: "asc" } }),
+      prisma.project.findMany({ orderBy: { createdAt: "desc" } }),
+      prisma.socialLink.findMany({ orderBy: { sortOrder: "asc" } }),
+    ]);
+    return { about, skills, projects, socials };
+  } catch {
+    return { about: null, skills: [], projects: [], socials: [] };
+  }
 }
 
 export default async function HomePage() {

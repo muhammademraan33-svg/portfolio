@@ -21,8 +21,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-  const projects = await prisma.project.findMany({ select: { slug: true } });
-  return projects.map((p) => ({ slug: p.slug }));
+  try {
+    const projects = await prisma.project.findMany({ select: { slug: true } });
+    return projects.map((p) => ({ slug: p.slug }));
+  } catch {
+    // DB not available at build time (e.g. local build without PostgreSQL)
+    return [];
+  }
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {

@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model Project {
@@ -25,12 +25,12 @@ model Project {
 }
 
 model Skill {
-  id         String @id @default(cuid())
-  name       String
-  level      Int    @default(80)
-  category   String @default("Technical")
-  icon       String @default("")
-  sortOrder  Int    @default(0)
+  id        String @id @default(cuid())
+  name      String
+  level     Int    @default(80)
+  category  String @default("Technical")
+  icon      String @default("")
+  sortOrder Int    @default(0)
 }
 
 model AboutInfo {

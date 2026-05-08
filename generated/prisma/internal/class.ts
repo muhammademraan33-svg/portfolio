@@ -19,8 +19,8 @@ const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
   "clientVersion": "7.8.0",
   "engineVersion": "3c6e192761c0362d496ed980de936e2f3cebcd3a",
-  "activeProvider": "sqlite",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel Project {\n  id          String   @id @default(cuid())\n  title       String\n  slug        String   @unique\n  description String\n  longDesc    String   @default(\"\")\n  category    String\n  date        String\n  projectUrl  String   @default(\"\")\n  githubUrl   String   @default(\"\")\n  image       String   @default(\"\")\n  featured    Boolean  @default(false)\n  tags        String   @default(\"[]\")\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n\nmodel Skill {\n  id        String @id @default(cuid())\n  name      String\n  level     Int    @default(80)\n  category  String @default(\"Technical\")\n  icon      String @default(\"\")\n  sortOrder Int    @default(0)\n}\n\nmodel AboutInfo {\n  id          String @id @default(cuid())\n  name        String @default(\"\")\n  title       String @default(\"\")\n  bio         String @default(\"\")\n  email       String @default(\"\")\n  phone       String @default(\"\")\n  location    String @default(\"\")\n  resumeUrl   String @default(\"\")\n  heroHeading String @default(\"\")\n  heroSub     String @default(\"\")\n  avatarUrl   String @default(\"\")\n}\n\nmodel SocialLink {\n  id        String @id @default(cuid())\n  platform  String\n  url       String\n  icon      String @default(\"\")\n  sortOrder Int    @default(0)\n}\n\nmodel ContactMessage {\n  id        String   @id @default(cuid())\n  name      String\n  email     String\n  subject   String\n  message   String\n  read      Boolean  @default(false)\n  createdAt DateTime @default(now())\n}\n\nmodel AdminUser {\n  id           String @id @default(cuid())\n  username     String @unique\n  passwordHash String\n}\n",
+  "activeProvider": "postgresql",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Project {\n  id          String   @id @default(cuid())\n  title       String\n  slug        String   @unique\n  description String\n  longDesc    String   @default(\"\")\n  category    String\n  date        String\n  projectUrl  String   @default(\"\")\n  githubUrl   String   @default(\"\")\n  image       String   @default(\"\")\n  featured    Boolean  @default(false)\n  tags        String   @default(\"[]\")\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n\nmodel Skill {\n  id        String @id @default(cuid())\n  name      String\n  level     Int    @default(80)\n  category  String @default(\"Technical\")\n  icon      String @default(\"\")\n  sortOrder Int    @default(0)\n}\n\nmodel AboutInfo {\n  id          String @id @default(cuid())\n  name        String @default(\"\")\n  title       String @default(\"\")\n  bio         String @default(\"\")\n  email       String @default(\"\")\n  phone       String @default(\"\")\n  location    String @default(\"\")\n  resumeUrl   String @default(\"\")\n  heroHeading String @default(\"\")\n  heroSub     String @default(\"\")\n  avatarUrl   String @default(\"\")\n}\n\nmodel SocialLink {\n  id        String @id @default(cuid())\n  platform  String\n  url       String\n  icon      String @default(\"\")\n  sortOrder Int    @default(0)\n}\n\nmodel ContactMessage {\n  id        String   @id @default(cuid())\n  name      String\n  email     String\n  subject   String\n  message   String\n  read      Boolean  @default(false)\n  createdAt DateTime @default(now())\n}\n\nmodel AdminUser {\n  id           String @id @default(cuid())\n  username     String @unique\n  passwordHash String\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -45,10 +45,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
   },
 
