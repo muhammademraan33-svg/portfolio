@@ -9,7 +9,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  serverExternalPackages: ["better-sqlite3"],
+  // pg is used server-side only
+  serverExternalPackages: ["pg", "pg-native"],
 };
 
 export default nextConfig;
