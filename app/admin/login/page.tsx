@@ -132,9 +132,6 @@ export default function AdminLogin() {
             </motion.button>
           </form>
 
-          <p className="text-center text-xs text-slate-600 mt-6">
-            Default: admin / admin123
-          </p>
         </div>
       </motion.div>
     </div>
